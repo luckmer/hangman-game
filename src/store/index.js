@@ -28,7 +28,15 @@ const SetSelectedText = (state, action) => {
 };
 
 const SetRandomGuess = (state, action) => {
-  return state.guess;
+  switch (action.type) {
+    case actions.Set_Random_Guess: {
+      const word = action.payload;
+      return word;
+    }
+
+    default:
+      return state.guess;
+  }
 };
 
 const reducer = (state, action) => ({

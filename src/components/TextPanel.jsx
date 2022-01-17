@@ -3,6 +3,49 @@ import styled from "styled-components";
 import { AppContext } from "../store/index";
 import actions from "../store/actions";
 
+const TextPanel = () => {
+  const { state, dispatch } = React.useContext(AppContext);
+
+  const alphabet = new Array(26)
+    .fill("")
+    .map((_, w) => String.fromCharCode(w + 97));
+
+  const handleClickText = (word) => {
+    const theSameWord = state.selectedText.some((el) => el === word);
+
+    if (!theSameWord) {
+      dispatch({
+        type: actions.Set_seletected_text,
+        payload: word
+      });
+    }
+  };
+
+  return (
+    <TextContainer>
+      <TextHeader>
+        <div>
+          <TextH3>HANGMAN</TextH3>
+        </div>
+      </TextHeader>
+
+      <TextAlphabet>
+        {alphabet.map((word, index) => {
+          const hideText = state.selectedText.some((text) => text === word);
+
+          return (
+            <div key={index} onClick={() => handleClickText(word)}>
+              <TextP hideText={hideText}>{word}</TextP>
+            </div>
+          );
+        })}
+      </TextAlphabet>
+    </TextContainer>
+  );
+};
+
+export default TextPanel;
+
 const TextContainer = styled.div`
   max-width: 1000px;
   margin: auto;
@@ -51,46 +94,3 @@ const TextP = styled.p`
     color: white;
   }
 `;
-
-const TextPanel = () => {
-  const { state, dispatch } = React.useContext(AppContext);
-
-  const alphabet = new Array(26)
-    .fill("")
-    .map((_, w) => String.fromCharCode(w + 97));
-
-  const handleClickText = (word) => {
-    const theSameWord = state.selectedText.some((el) => el === word);
-
-    if (!theSameWord) {
-      dispatch({
-        type: actions.Set_seletected_text,
-        payload: word
-      });
-    }
-  };
-
-  return (
-    <TextContainer>
-      <TextHeader>
-        <div>
-          <TextH3>HANGMAN</TextH3>
-        </div>
-      </TextHeader>
-
-      <TextAlphabet>
-        {alphabet.map((word, index) => {
-          const hideText = state.selectedText.some((text) => text === word);
-
-          return (
-            <div key={index} onClick={() => handleClickText(word)}>
-              <TextP hideText={hideText}>{word}</TextP>
-            </div>
-          );
-        })}
-      </TextAlphabet>
-    </TextContainer>
-  );
-};
-
-export default TextPanel;
