@@ -3,12 +3,18 @@ import styled from "styled-components";
 import { AppContext } from "../store/index";
 import actions from "../store/actions";
 
-const TextPanel = () => {
-  const { state, dispatch } = React.useContext(AppContext);
+const withTextLoader = (Element) => {
+  return (props) => {
+    const alphabet = new Array(26)
+      .fill("")
+      .map((_, w) => String.fromCharCode(w + 97));
 
-  const alphabet = new Array(26)
-    .fill("")
-    .map((_, w) => String.fromCharCode(w + 97));
+    return <Element {...props} alphabet={alphabet} />;
+  };
+};
+
+const TextPanel = ({ alphabet }) => {
+  const { state, dispatch } = React.useContext(AppContext);
 
   const handleClickText = (word) => {
     if (state.lives === 0) return;
@@ -17,7 +23,7 @@ const TextPanel = () => {
     const words = state.guess.split("");
     const incorrectWord = words.some((element) => element === word);
 
-    if (!incorrectWord) {
+    if (!incorrectWord && !theSameWord) {
       dispatch({ type: actions.Set_Live, payload: 1 });
     }
 
@@ -31,6 +37,22 @@ const TextPanel = () => {
 
     gameEnd && dispatch({ type: actions.Set_Game_Over, payload: true });
   }, [state.lives, dispatch]);
+
+  React.useEffect(() => {
+    const live = state.lives;
+    const words = state.guess.split("");
+    const theSameWord = state.selectedText.filter((word) =>
+      words.includes(word)
+    );
+
+    if (!theSameWord.length) return;
+
+    const winner = words.every((el) => theSameWord.includes(el));
+
+    if (winner && live > 0) {
+      dispatch({ type: actions.Set_Winner, payload: true });
+    }
+  }, [state.selectedText, state.guess, state.lives, dispatch]);
 
   return (
     <TextContainer>
@@ -58,7 +80,7 @@ const TextPanel = () => {
   );
 };
 
-export default TextPanel;
+export default withTextLoader(TextPanel);
 
 const TextContainer = styled.div`
   max-width: 1000px;

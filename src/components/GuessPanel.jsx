@@ -54,6 +54,7 @@ const GuessSection = styled.section`
   justify-content: center;
   flex-flow: row wrap;
   align-items: center;
+  height: 100%;
 `;
 
 const GuessP = styled.p`

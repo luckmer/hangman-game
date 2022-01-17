@@ -62,11 +62,22 @@ const SetGameStatus = (state, action) => {
   }
 };
 
+const SetWinnerStatus = (state, action) => {
+  switch (action.type) {
+    case actions.Set_Winner:
+      return action.payload;
+
+    default:
+      return state.winner;
+  }
+};
+
 const reducer = (state, action) => ({
   selectedText: SetSelectedText(state, action),
   guess: SetRandomGuess(state, action),
   lives: SetLives(state, action),
-  gameOver: SetGameStatus(state, action)
+  gameOver: SetGameStatus(state, action),
+  winner: SetWinnerStatus(state, action)
 });
 
 const Index = ({ children }) => {
