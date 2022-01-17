@@ -1,9 +1,11 @@
 import React from "react";
 import { AppContext } from "../store";
 import { Section, Canvas } from "./styles/CanvasPanel.styles";
+import actions from "../store/actions";
+import Button from "../pattern/Button";
 
 const CanvasPanel = () => {
-  const { state } = React.useContext(AppContext);
+  const { state, dispatch } = React.useContext(AppContext);
 
   const node = React.useRef(null);
   const live = state.lives;
@@ -70,9 +72,35 @@ const CanvasPanel = () => {
     }
   }, [live]);
 
+  const handleRestartGame = () => {
+    const original = {
+      selectedText: [],
+      lives: 10,
+      gameOver: false,
+      winner: false,
+      guess: ""
+    };
+
+    const comparable = (o) =>
+      typeof o != "object" || !o
+        ? o
+        : Object.keys(o)
+            .sort()
+            .reduce((c, key) => ((c[key] = comparable(o[key])), c), {});
+
+    const moved =
+      JSON.stringify(comparable(state)) ===
+      JSON.stringify(comparable(original));
+
+    if (!moved) dispatch({ type: actions.Clear_State });
+  };
+
   return (
     <Section>
       <Canvas width="400vmin" height="300vmin" ref={node} />
+      <Section>
+        <Button onClick={() => handleRestartGame()}>restart</Button>
+      </Section>
     </Section>
   );
 };

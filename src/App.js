@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Index from "./store";
 import { Main } from "./styles/App.styles";
 

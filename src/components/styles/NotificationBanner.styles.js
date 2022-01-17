@@ -92,6 +92,6 @@ export const Section = styled(Glue)`
 
 export const GreySectionBackground = styled(Glue)`
   background-color: grey;
-  opacity: 0.5;
+  opacity: 0.9;
   z-index: -1;
 `;

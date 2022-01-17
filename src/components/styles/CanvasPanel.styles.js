@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Section = styled.section`
-  margin-top: 10vmin;
   display: flex;
-  justify-content: center;
+  align-items: center;
   padding-bottom: 5vmin;
+  flex-direction: column;
 `;
 
 export const Canvas = styled.canvas`

@@ -22,6 +22,9 @@ const SetSelectedText = (state, action) => {
       return [...state.selectedText, word];
     }
 
+    case actions.Clear_State:
+      return [];
+
     default:
       return state.selectedText;
   }
@@ -35,6 +38,9 @@ const SetRandomGuess = (state, action) => {
       return word;
     }
 
+    case actions.Clear_State:
+      return "";
+
     default:
       return state.guess;
   }
@@ -44,9 +50,12 @@ const SetLives = (state, action) => {
   switch (action.type) {
     case actions.Set_Live: {
       const counter = action.payload;
-
       return state.lives - counter;
     }
+
+    case actions.Clear_State:
+      return 10;
+
     default:
       return state.lives;
   }
@@ -56,6 +65,8 @@ const SetGameStatus = (state, action) => {
   switch (action.type) {
     case actions.Set_Game_Over:
       return action.payload;
+    case actions.Clear_State:
+      return false;
 
     default:
       return state.gameOver;
@@ -67,25 +78,11 @@ const SetWinnerStatus = (state, action) => {
     case actions.Set_Winner:
       return action.payload;
 
+    case actions.Clear_State:
+      return false;
+
     default:
       return state.winner;
-  }
-};
-
-const SetClearState = (state, action) => {
-  switch (action.type) {
-    case actions.Clear_State: {
-      state.selectedText = [];
-      state.lives = 10;
-      state.gameOver = false;
-      state.winner = false;
-      state.guess = "";
-
-      return state;
-    }
-
-    default:
-      return state;
   }
 };
 
@@ -94,8 +91,7 @@ const reducer = (state, action) => ({
   guess: SetRandomGuess(state, action),
   lives: SetLives(state, action),
   gameOver: SetGameStatus(state, action),
-  winner: SetWinnerStatus(state, action),
-  state: SetClearState(state, action)
+  winner: SetWinnerStatus(state, action)
 });
 
 const Index = ({ children }) => {
