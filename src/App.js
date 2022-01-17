@@ -2,7 +2,7 @@ import React from "react";
 import Index from "./store";
 import styled from "styled-components";
 
-import { TextPanel } from "./components";
+import { TextPanel, GuessPanel } from "./components";
 
 const Main = styled.main`
   max-width: 1000px;
@@ -15,6 +15,7 @@ const App = () => {
     <Main>
       <Index>
         <TextPanel />
+        <GuessPanel />
       </Index>
     </Main>
   );

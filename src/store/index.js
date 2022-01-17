@@ -2,7 +2,11 @@ import React, { useReducer, createContext } from "react";
 import actions from "./actions";
 
 const initialState = {
-  selectedText: []
+  selectedText: [],
+  lives: 10,
+  gameOver: false,
+  winner: false,
+  guess: ""
 };
 
 export const AppContext = createContext({
@@ -23,8 +27,13 @@ const SetSelectedText = (state, action) => {
   }
 };
 
+const SetRandomGuess = (state, action) => {
+  return state.guess;
+};
+
 const reducer = (state, action) => ({
-  selectedText: SetSelectedText(state, action)
+  selectedText: SetSelectedText(state, action),
+  guess: SetRandomGuess(state, action)
 });
 
 const Index = ({ children }) => {
