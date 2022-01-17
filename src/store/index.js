@@ -72,12 +72,30 @@ const SetWinnerStatus = (state, action) => {
   }
 };
 
+const SetClearState = (state, action) => {
+  switch (action.type) {
+    case actions.Clear_State: {
+      state.selectedText = [];
+      state.lives = 10;
+      state.gameOver = false;
+      state.winner = false;
+      state.guess = "";
+
+      return state;
+    }
+
+    default:
+      return state;
+  }
+};
+
 const reducer = (state, action) => ({
   selectedText: SetSelectedText(state, action),
   guess: SetRandomGuess(state, action),
   lives: SetLives(state, action),
   gameOver: SetGameStatus(state, action),
-  winner: SetWinnerStatus(state, action)
+  winner: SetWinnerStatus(state, action),
+  state: SetClearState(state, action)
 });
 
 const Index = ({ children }) => {

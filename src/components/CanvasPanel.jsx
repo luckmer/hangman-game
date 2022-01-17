@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import { AppContext } from "../store";
+import { Section, Canvas } from "./styles/CanvasPanel.styles";
 
 const CanvasPanel = () => {
   const { state } = React.useContext(AppContext);
@@ -78,16 +78,3 @@ const CanvasPanel = () => {
 };
 
 export default CanvasPanel;
-
-const Section = styled.section`
-  margin-top: 10vmin;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 5vmin;
-`;
-
-const Canvas = styled.canvas`
-  width: 50vmin;
-  border: 1px solid grey;
-  height: 100%;
-`;
