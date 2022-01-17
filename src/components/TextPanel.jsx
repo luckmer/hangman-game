@@ -11,15 +11,26 @@ const TextPanel = () => {
     .map((_, w) => String.fromCharCode(w + 97));
 
   const handleClickText = (word) => {
+    if (state.lives === 0) return;
+
     const theSameWord = state.selectedText.some((el) => el === word);
+    const words = state.guess.split("");
+    const incorrectWord = words.some((element) => element === word);
+
+    if (!incorrectWord) {
+      dispatch({ type: actions.Set_Live, payload: 1 });
+    }
 
     if (!theSameWord) {
-      dispatch({
-        type: actions.Set_seletected_text,
-        payload: word
-      });
+      dispatch({ type: actions.Set_seletected_text, payload: word });
     }
   };
+
+  React.useEffect(() => {
+    const gameEnd = state.lives === 0;
+
+    gameEnd && dispatch({ type: actions.Set_Game_Over, payload: true });
+  }, [state.lives, dispatch]);
 
   return (
     <TextContainer>
@@ -28,6 +39,9 @@ const TextPanel = () => {
           <TextH3>HANGMAN</TextH3>
         </div>
       </TextHeader>
+      <div>
+        <TextH3>lives : {state.lives}</TextH3>
+      </div>
 
       <TextAlphabet>
         {alphabet.map((word, index) => {

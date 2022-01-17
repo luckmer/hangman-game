@@ -31,6 +31,7 @@ const SetRandomGuess = (state, action) => {
   switch (action.type) {
     case actions.Set_Random_Guess: {
       const word = action.payload;
+
       return word;
     }
 
@@ -39,9 +40,33 @@ const SetRandomGuess = (state, action) => {
   }
 };
 
+const SetLives = (state, action) => {
+  switch (action.type) {
+    case actions.Set_Live: {
+      const counter = action.payload;
+
+      return state.lives - counter;
+    }
+    default:
+      return state.lives;
+  }
+};
+
+const SetGameStatus = (state, action) => {
+  switch (action.type) {
+    case actions.Set_Game_Over:
+      return action.payload;
+
+    default:
+      return state.gameOver;
+  }
+};
+
 const reducer = (state, action) => ({
   selectedText: SetSelectedText(state, action),
-  guess: SetRandomGuess(state, action)
+  guess: SetRandomGuess(state, action),
+  lives: SetLives(state, action),
+  gameOver: SetGameStatus(state, action)
 });
 
 const Index = ({ children }) => {
