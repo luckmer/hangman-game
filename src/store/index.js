@@ -1,7 +1,8 @@
-import React, { Fragment, useReducer, createContext } from "react";
+import React, { useReducer, createContext } from "react";
+import actions from "./actions";
 
 const initialState = {
-  selectedText: ""
+  selectedText: []
 };
 
 export const AppContext = createContext({
@@ -9,7 +10,22 @@ export const AppContext = createContext({
   dispatch: () => null
 });
 
-const reducer = (state, action) => {};
+const SetSelectedText = (state, action) => {
+  switch (action.type) {
+    case actions.Set_seletected_text: {
+      const word = action.payload;
+
+      return [...state.selectedText, word];
+    }
+
+    default:
+      return state.selectedText;
+  }
+};
+
+const reducer = (state, action) => ({
+  selectedText: SetSelectedText(state, action)
+});
 
 const Index = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);

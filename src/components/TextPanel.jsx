@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { AppContext } from "../store/index";
+import actions from "../store/actions";
 
 const TextContainer = styled.div`
   max-width: 1000px;
@@ -41,16 +43,32 @@ const TextP = styled.p`
   border-bottom: 1px solid grey;
   transition: all 500ms ease;
 
+  background-color: ${({ hideText }) => (hideText ? "grey" : "")};
+  color: ${({ hideText }) => (hideText ? "white" : "")};
+
   &:hover {
-    background: black;
+    background: grey;
     color: white;
   }
 `;
 
 const TextPanel = () => {
+  const { state, dispatch } = React.useContext(AppContext);
+
   const alphabet = new Array(26)
     .fill("")
     .map((_, w) => String.fromCharCode(w + 97));
+
+  const handleClickText = (word) => {
+    const theSameWord = state.selectedText.some((el) => el === word);
+
+    if (!theSameWord) {
+      dispatch({
+        type: actions.Set_seletected_text,
+        payload: word
+      });
+    }
+  };
 
   return (
     <TextContainer>
@@ -61,11 +79,15 @@ const TextPanel = () => {
       </TextHeader>
 
       <TextAlphabet>
-        {alphabet.map((word, index) => (
-          <div key={index}>
-            <TextP>{word}</TextP>
-          </div>
-        ))}
+        {alphabet.map((word, index) => {
+          const hideText = state.selectedText.some((text) => text === word);
+
+          return (
+            <div key={index} onClick={() => handleClickText(word)}>
+              <TextP hideText={hideText}>{word}</TextP>
+            </div>
+          );
+        })}
       </TextAlphabet>
     </TextContainer>
   );
