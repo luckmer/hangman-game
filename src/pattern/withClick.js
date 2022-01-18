@@ -51,8 +51,8 @@ const WithClick = ({ children }) => {
 
   return (
     <React.Fragment>
-      <div>{children(state.lives)}</div>
-      <TextAlphabet>
+      <div role="textbox">{children(state.lives)}</div>
+      <TextAlphabet role="dialog">
         {alphabet.map((word, index) => {
           const hideText = state.selectedText.some((text) => text === word);
           return (
